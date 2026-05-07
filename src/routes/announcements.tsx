@@ -13,6 +13,7 @@ import { Pin, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteNav } from "@/components/site-nav";
 import { useAuth } from "@/hooks/use-auth";
+import { AdminSignature } from "@/components/admin-signature";
 
 export const Route = createFileRoute("/announcements")({
   head: () => ({ meta: [{ title: "Announcements — AutoCode" }, { name: "description", content: "Latest updates and news from AutoCode." }] }),
@@ -107,7 +108,10 @@ function AnnouncementsPage() {
                     {a.pinned && <Badge className="bg-primary text-primary-foreground font-mono uppercase text-xs"><Pin className="size-3 mr-1" /> Pinned</Badge>}
                     <h3 className="text-2xl font-bold">{a.title}</h3>
                   </div>
-                  <div className="font-mono text-xs uppercase text-muted-foreground mt-1">{new Date(a.created_at).toLocaleDateString()}</div>
+                  <div className="mt-2 flex items-center gap-3">
+                    <AdminSignature />
+                    <span className="font-mono text-xs uppercase text-muted-foreground">{new Date(a.created_at).toLocaleDateString()}</span>
+                  </div>
                 </div>
                 {isAdmin && (
                   <Button size="sm" variant="outline" onClick={()=>remove(a.id)}><Trash2 className="size-4" /></Button>
