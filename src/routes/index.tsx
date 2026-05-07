@@ -205,8 +205,9 @@ function Stars({ value, onChange, size = "size-5" }: { value: number; onChange?:
 }
 
 function Reviews() {
+  const { user } = useAuth();
+  const [displayName, setDisplayName] = useState<string>("");
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [name, setName] = useState("");
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -217,16 +218,27 @@ function Reviews() {
   }
   useEffect(() => { load(); }, []);
 
+  useEffect(() => {
+    if (!user) { setDisplayName(""); return; }
+    supabase.from("profiles").select("display_name").eq("user_id", user.id).maybeSingle()
+      .then(({ data }) => setDisplayName(data?.display_name ?? user.email?.split("@")[0] ?? "User"));
+  }, [user]);
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    const parsed = reviewSchema.safeParse({ name, rating, comment });
-    if (!parsed.success) { toast.error("Please fill in your name and a comment."); return; }
+    if (!user) { toast.error("Please sign in to post a review."); return; }
+    const parsed = reviewSchema.safeParse({ rating, comment });
+    if (!parsed.success) { toast.error("Please write a comment."); return; }
     setLoading(true);
-    const { error } = await supabase.from("reviews").insert(parsed.data);
+    const { error } = await supabase.from("reviews").insert({
+      ...parsed.data,
+      name: displayName || "User",
+      user_id: user.id,
+    });
     setLoading(false);
     if (error) { toast.error("Couldn't post your review."); return; }
     toast.success("Thanks for the review!");
-    setName(""); setComment(""); setRating(5);
+    setComment(""); setRating(5);
     load();
   }
 
@@ -237,21 +249,25 @@ function Reviews() {
         <div className="mt-12 grid lg:grid-cols-5 gap-6">
           <Card className="lg:col-span-2 p-8 bg-card border-border h-fit">
             <h3 className="font-bold text-xl">Leave a review</h3>
-            <form onSubmit={submit} className="mt-6 space-y-5">
-              <div>
-                <Label htmlFor="name" className="font-mono uppercase text-xs">Name</Label>
-                <Input id="name" value={name} onChange={e=>setName(e.target.value)} maxLength={80} className="mt-2" placeholder="Jane D." />
+            {user ? (
+              <form onSubmit={submit} className="mt-6 space-y-5">
+                <div className="font-mono text-xs text-muted-foreground uppercase">Posting as <span className="text-primary">{displayName || "you"}</span></div>
+                <div>
+                  <Label className="font-mono uppercase text-xs">Rating</Label>
+                  <div className="mt-2"><Stars value={rating} onChange={setRating} size="size-7" /></div>
+                </div>
+                <div>
+                  <Label htmlFor="cmt" className="font-mono uppercase text-xs">Comment</Label>
+                  <Textarea id="cmt" value={comment} onChange={e=>setComment(e.target.value)} maxLength={600} rows={4} className="mt-2" placeholder="Tell people about your experience..." />
+                </div>
+                <Button type="submit" variant="hero" disabled={loading} className="w-full">{loading ? "Posting..." : "Post review"}</Button>
+              </form>
+            ) : (
+              <div className="mt-6 space-y-4">
+                <p className="text-sm text-muted-foreground">Reviews are tied to accounts to keep them genuine. Sign in or create a free account to post.</p>
+                <Button asChild variant="hero" className="w-full"><Link to="/auth">Sign in to leave a review</Link></Button>
               </div>
-              <div>
-                <Label className="font-mono uppercase text-xs">Rating</Label>
-                <div className="mt-2"><Stars value={rating} onChange={setRating} size="size-7" /></div>
-              </div>
-              <div>
-                <Label htmlFor="cmt" className="font-mono uppercase text-xs">Comment</Label>
-                <Textarea id="cmt" value={comment} onChange={e=>setComment(e.target.value)} maxLength={600} rows={4} className="mt-2" placeholder="Tell people about your experience..." />
-              </div>
-              <Button type="submit" variant="hero" disabled={loading} className="w-full">{loading ? "Posting..." : "Post review"}</Button>
-            </form>
+            )}
           </Card>
           <div className="lg:col-span-3 space-y-4">
             {reviews.length === 0 && (
@@ -293,7 +309,11 @@ function Footer() {
     <footer className="border-t border-border py-10 px-6">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-4 font-mono text-xs uppercase text-muted-foreground">
         <div>© {new Date().getFullYear()} AutoCode — Built by hand</div>
-        <a href="mailto:hello@autocode.dev" className="hover:text-primary">hello@autocode.dev</a>
+        <div className="flex gap-6">
+          <Link to="/terms" className="hover:text-primary">Terms</Link>
+          <Link to="/privacy" className="hover:text-primary">Data Policy</Link>
+          <a href="mailto:hello@autocode.dev" className="hover:text-primary">hello@autocode.dev</a>
+        </div>
       </div>
     </footer>
   );
@@ -303,7 +323,7 @@ function Index() {
   return (
     <main>
       <Toaster theme="dark" position="top-right" />
-      <Nav />
+      <SiteNav />
       <Hero />
       <Calculator />
       <Packages />
