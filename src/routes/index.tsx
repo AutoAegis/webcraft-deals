@@ -74,7 +74,8 @@ const features = [
 ];
 
 function Calculator() {
-  const { isAdmin } = useAuth();
+  const { isAdmin, user } = useAuth();
+  const navigate = useNavigate();
   const [pages, setPages] = useState(5);
   const [design, setDesign] = useState<"template"|"custom"|"premium">("custom");
   const [picked, setPicked] = useState<string[]>(["seo"]);
@@ -110,6 +111,27 @@ function Calculator() {
     if (data.expires_at && new Date(data.expires_at) < new Date()) { toast.error("This code has expired."); return; }
     setPromo({ code: data.code, discount_percent: data.discount_percent });
     toast.success(`${data.discount_percent}% off applied!`);
+  }
+
+  function finalize() {
+    if (!user) {
+      toast.error("Please sign in to finalise your order.");
+      navigate({ to: "/auth" });
+      return;
+    }
+    navigate({
+      to: "/order",
+      search: {
+        type: "custom",
+        design,
+        pages,
+        picked: picked.join(","),
+        rush,
+        promo: promo?.code,
+        promoPct: promo?.discount_percent,
+        total,
+      },
+    });
   }
 
   return (
@@ -187,9 +209,12 @@ function Calculator() {
               <div className="mt-2 font-mono text-xs uppercase opacity-90">Code {promo.code} — {promo.discount_percent}% off</div>
             )}
             <p className="mt-4 text-sm opacity-80">One-time price. Hosting, edits & training included for 30 days post-launch.</p>
-            <Button asChild variant="secondary" size="lg" className="mt-8 w-full">
-              <a href="mailto:autocode.business@gmail.com">Lock in this price <ArrowRight className="ml-2 size-4" /></a>
+            <Button onClick={finalize} variant="secondary" size="lg" className="mt-8 w-full">
+              Finalise & confirm <ArrowRight className="ml-2 size-4" />
             </Button>
+            {!user && (
+              <p className="mt-3 text-xs opacity-80 text-center"><Link to="/auth" className="underline">Sign in</Link> to send your order.</p>
+            )}
           </Card>
         </div>
         {isAdmin && <PromoAdmin />}
@@ -294,6 +319,12 @@ const packages = [
 ];
 
 function Packages() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  function choose(p: { name: string; price: number }) {
+    if (!user) { toast.error("Please sign in to choose a package."); navigate({ to: "/auth" }); return; }
+    navigate({ to: "/order", search: { type: "package", name: p.name, price: p.price } });
+  }
   return (
     <section id="packages" className="py-24 px-6 bg-secondary/20">
       <div className="max-w-6xl mx-auto">
@@ -318,8 +349,8 @@ function Packages() {
                   </li>
                 ))}
               </ul>
-              <Button asChild variant={p.popular ? "hero" : "outline"} className="mt-8">
-                <a href="mailto:autocode.business@gmail.com">Choose {p.name}</a>
+              <Button onClick={() => choose(p)} variant={p.popular ? "hero" : "outline"} className="mt-8">
+                Choose {p.name}
               </Button>
             </Card>
           ))}
