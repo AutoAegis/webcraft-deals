@@ -31,7 +31,7 @@ function Nav() {
     <nav className="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-background/70 border-b border-border">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <a href="#top" className="flex items-center gap-2 font-bold text-lg">
-          <span className="size-3 bg-primary rotate-45" /> PIXELFORGE
+          <span className="size-3 bg-primary rotate-45" /> AUTOCODE
         </a>
         <div className="hidden md:flex gap-8 text-sm font-mono uppercase">
           <a href="#calc" className="hover:text-primary transition-colors">Calculator</a>
@@ -156,7 +156,7 @@ function Calculator() {
             <div className="mt-2 text-6xl font-bold tabular-nums">${total.toLocaleString()}</div>
             <p className="mt-4 text-sm opacity-80">One-time price. Hosting, edits & training included for 30 days post-launch.</p>
             <Button asChild variant="secondary" size="lg" className="mt-8 w-full">
-              <a href="mailto:hello@pixelforge.dev">Lock in this price <ArrowRight className="ml-2 size-4" /></a>
+              <a href="mailto:hello@autocode.dev">Lock in this price <ArrowRight className="ml-2 size-4" /></a>
             </Button>
           </Card>
         </div>
@@ -197,7 +197,7 @@ function Packages() {
                 ))}
               </ul>
               <Button asChild variant={p.popular ? "hero" : "outline"} className="mt-8">
-                <a href="mailto:hello@pixelforge.dev">Choose {p.name}</a>
+                <a href="mailto:hello@autocode.dev">Choose {p.name}</a>
               </Button>
             </Card>
           ))}
@@ -308,8 +308,8 @@ function Footer() {
   return (
     <footer className="border-t border-border py-10 px-6">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-4 font-mono text-xs uppercase text-muted-foreground">
-        <div>© {new Date().getFullYear()} Pixelforge — Built by hand</div>
-        <a href="mailto:hello@pixelforge.dev" className="hover:text-primary">hello@pixelforge.dev</a>
+        <div>© {new Date().getFullYear()} AutoCode — Built by hand</div>
+        <a href="mailto:hello@autocode.dev" className="hover:text-primary">hello@autocode.dev</a>
       </div>
     </footer>
   );
