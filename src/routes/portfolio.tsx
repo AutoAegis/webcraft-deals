@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SiteNav } from "@/components/site-nav";
 import { useAuth } from "@/hooks/use-auth";
 import { AdminSignature } from "@/components/admin-signature";
+import { ImageUpload } from "@/components/image-upload";
 
 export const Route = createFileRoute("/portfolio")({
   head: () => ({ meta: [{ title: "Portfolio — AutoCode" }, { name: "description", content: "Selected websites and apps built by AutoCode." }] }),
@@ -96,7 +97,7 @@ function PortfolioPage() {
               </div>
               <div>
                 <Label className="font-mono uppercase text-xs">Image URL</Label>
-                <Input value={form.image_url} onChange={e=>setForm({...form, image_url: e.target.value})} className="mt-2" placeholder="https://..." />
+                <div className="mt-2"><ImageUpload value={form.image_url} onChange={(url)=>setForm({...form, image_url: url})} /></div>
               </div>
               <div>
                 <Label className="font-mono uppercase text-xs">Project URL</Label>

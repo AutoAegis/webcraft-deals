@@ -14,13 +14,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { SiteNav } from "@/components/site-nav";
 import { useAuth } from "@/hooks/use-auth";
 import { AdminSignature } from "@/components/admin-signature";
+import { ImageUpload } from "@/components/image-upload";
 
 export const Route = createFileRoute("/announcements")({
   head: () => ({ meta: [{ title: "Announcements — AutoCode" }, { name: "description", content: "Latest updates and news from AutoCode." }] }),
   component: AnnouncementsPage,
 });
 
-type Announcement = { id: string; title: string; body: string; pinned: boolean; created_at: string };
+type Announcement = { id: string; title: string; body: string; pinned: boolean; created_at: string; image_url: string | null };
 
 const schema = z.object({
   title: z.string().trim().min(1).max(120),
@@ -33,6 +34,7 @@ function AnnouncementsPage() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [pinned, setPinned] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function load() {
@@ -46,10 +48,10 @@ function AnnouncementsPage() {
     const parsed = schema.safeParse({ title, body });
     if (!parsed.success) { toast.error("Title and body are required."); return; }
     setLoading(true);
-    const { error } = await supabase.from("announcements").insert({ ...parsed.data, pinned });
+    const { error } = await supabase.from("announcements").insert({ ...parsed.data, pinned, image_url: imageUrl || null });
     setLoading(false);
     if (error) { toast.error(error.message); return; }
-    setTitle(""); setBody(""); setPinned(false);
+    setTitle(""); setBody(""); setPinned(false); setImageUrl("");
     toast.success("Announcement posted.");
     load();
   }
@@ -87,6 +89,10 @@ function AnnouncementsPage() {
                 <Checkbox checked={pinned} onCheckedChange={(c)=>setPinned(!!c)} />
                 Pin to top
               </label>
+              <div>
+                <Label className="font-mono uppercase text-xs">Image (optional)</Label>
+                <div className="mt-2"><ImageUpload value={imageUrl} onChange={setImageUrl} /></div>
+              </div>
               <Button type="submit" variant="hero" disabled={loading}>{loading ? "Posting..." : "Post announcement"}</Button>
             </form>
           </Card>
@@ -118,6 +124,9 @@ function AnnouncementsPage() {
                 )}
               </div>
               <p className="mt-4 whitespace-pre-wrap text-foreground/90">{a.body}</p>
+              {a.image_url && (
+                <img src={a.image_url} alt={a.title} className="mt-4 rounded border border-border max-h-96 w-auto" />
+              )}
             </Card>
           ))}
         </div>
