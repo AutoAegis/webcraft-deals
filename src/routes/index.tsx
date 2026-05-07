@@ -81,12 +81,12 @@ function Hero() {
 }
 
 const features = [
-  { id: "blog", label: "Blog / CMS", price: 200 },
-  { id: "auth", label: "User accounts", price: 350 },
-  { id: "shop", label: "E-commerce / payments", price: 500 },
-  { id: "i18n", label: "Multi-language", price: 180 },
-  { id: "anim", label: "Custom animations", price: 220 },
-  { id: "seo", label: "SEO package", price: 150 },
+  { id: "blog", label: "Blog / CMS", price: 15 },
+  { id: "auth", label: "User accounts", price: 20 },
+  { id: "shop", label: "E-commerce / payments", price: 35 },
+  { id: "i18n", label: "Multi-language", price: 12 },
+  { id: "anim", label: "Custom animations", price: 15 },
+  { id: "seo", label: "SEO package", price: 10 },
 ];
 
 function Calculator() {
@@ -96,8 +96,8 @@ function Calculator() {
   const [rush, setRush] = useState(false);
 
   const total = useMemo(() => {
-    const base = { template: 250, custom: 600, premium: 1200 }[design];
-    const pageCost = pages * 60;
+    const base = { template: 19, custom: 49, premium: 99 }[design];
+    const pageCost = pages * 5;
     const featCost = picked.reduce((s, id) => s + (features.find(f=>f.id===id)?.price ?? 0), 0);
     const sub = base + pageCost + featCost;
     return Math.round(sub * (rush ? 1.3 : 1));
@@ -117,7 +117,7 @@ function Calculator() {
                     className={`p-4 border text-left transition-all ${design===t ? "border-primary bg-primary/10 text-foreground" : "border-border hover:border-primary/50"}`}>
                     <div className="font-bold capitalize">{t}</div>
                     <div className="text-xs text-muted-foreground font-mono mt-1">
-                      ${{template:250,custom:600,premium:1200}[t]} base
+                      £{{template:19,custom:49,premium:99}[t]} base
                     </div>
                   </button>
                 ))}
@@ -139,7 +139,7 @@ function Calculator() {
                     <label key={f.id} className={`flex items-center gap-3 p-3 border cursor-pointer transition-colors ${on ? "border-primary bg-primary/5" : "border-border hover:border-primary/40"}`}>
                       <Checkbox checked={on} onCheckedChange={(c)=>setPicked(p => c ? [...p, f.id] : p.filter(x=>x!==f.id))} />
                       <span className="flex-1 text-sm">{f.label}</span>
-                      <span className="font-mono text-xs text-muted-foreground">+${f.price}</span>
+                      <span className="font-mono text-xs text-muted-foreground">+£{f.price}</span>
                     </label>
                   );
                 })}
@@ -153,7 +153,7 @@ function Calculator() {
           </Card>
           <Card className="lg:col-span-2 p-8 bg-primary text-primary-foreground border-primary sticky top-24 self-start" style={{ boxShadow: "var(--shadow-brutal)" }}>
             <div className="font-mono uppercase text-xs opacity-70">Estimated total</div>
-            <div className="mt-2 text-6xl font-bold tabular-nums">${total.toLocaleString()}</div>
+            <div className="mt-2 text-6xl font-bold tabular-nums">£{total.toLocaleString()}</div>
             <p className="mt-4 text-sm opacity-80">One-time price. Hosting, edits & training included for 30 days post-launch.</p>
             <Button asChild variant="secondary" size="lg" className="mt-8 w-full">
               <a href="mailto:hello@autocode.dev">Lock in this price <ArrowRight className="ml-2 size-4" /></a>
@@ -166,9 +166,9 @@ function Calculator() {
 }
 
 const packages = [
-  { name: "Starter", price: 490, icon: Zap, desc: "Perfect single-page presence.", features: ["1-page landing site", "Mobile responsive", "Basic SEO setup", "Contact form", "5-day delivery"] },
-  { name: "Business", price: 1290, icon: Rocket, popular: true, desc: "Everything a small business needs.", features: ["Up to 6 pages", "Custom design", "CMS / blog ready", "Advanced SEO", "Analytics + forms", "30 days support"] },
-  { name: "Bespoke", price: 2990, icon: Code2, desc: "Custom apps & e-commerce.", features: ["Unlimited pages", "Custom backend / DB", "Auth & dashboards", "Payments / e-commerce", "Performance tuning", "90 days support"] },
+  { name: "Starter", price: 39, icon: Zap, desc: "Perfect single-page presence.", features: ["1-page landing site", "Mobile responsive", "Basic SEO setup", "Contact form", "5-day delivery"] },
+  { name: "Business", price: 99, icon: Rocket, popular: true, desc: "Everything a small business needs.", features: ["Up to 6 pages", "Custom design", "CMS / blog ready", "Advanced SEO", "Analytics + forms", "30 days support"] },
+  { name: "Bespoke", price: 249, icon: Code2, desc: "Custom apps & e-commerce.", features: ["Unlimited pages", "Custom backend / DB", "Auth & dashboards", "Payments / e-commerce", "Performance tuning", "90 days support"] },
 ];
 
 function Packages() {
@@ -186,7 +186,7 @@ function Packages() {
               <h3 className="mt-6 text-2xl font-bold">{p.name}</h3>
               <p className="text-sm text-muted-foreground mt-1">{p.desc}</p>
               <div className="mt-6 font-mono">
-                <span className="text-4xl font-bold">${p.price}</span>
+                <span className="text-4xl font-bold">£{p.price}</span>
                 <span className="text-muted-foreground text-sm"> / project</span>
               </div>
               <ul className="mt-6 space-y-3 flex-1">
