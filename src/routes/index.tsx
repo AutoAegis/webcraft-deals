@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -13,6 +14,8 @@ import { z } from "zod";
 import { ArrowRight, Check, Code2, Rocket, Sparkles, Star, Zap } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import hero from "@/assets/hero.jpg";
+import { SiteNav } from "@/components/site-nav";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -21,28 +24,9 @@ export const Route = createFileRoute("/")({
 type Review = { id: string; name: string; rating: number; comment: string; created_at: string };
 
 const reviewSchema = z.object({
-  name: z.string().trim().min(1).max(80),
   rating: z.number().int().min(1).max(5),
   comment: z.string().trim().min(1).max(600),
 });
-
-function Nav() {
-  return (
-    <nav className="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-background/70 border-b border-border">
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="#top" className="flex items-center gap-2 font-bold text-lg">
-          <span className="size-3 bg-primary rotate-45" /> AUTOCODE
-        </a>
-        <div className="hidden md:flex gap-8 text-sm font-mono uppercase">
-          <a href="#calc" className="hover:text-primary transition-colors">Calculator</a>
-          <a href="#packages" className="hover:text-primary transition-colors">Packages</a>
-          <a href="#reviews" className="hover:text-primary transition-colors">Reviews</a>
-        </div>
-        <Button asChild variant="hero" size="sm"><a href="#calc">Get quote</a></Button>
-      </div>
-    </nav>
-  );
-}
 
 function Hero() {
   return (
