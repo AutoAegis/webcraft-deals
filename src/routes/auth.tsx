@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteNav } from "@/components/site-nav";
+import { isCleanDisplayName } from "@/lib/profanity";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -51,6 +52,8 @@ function AuthPage() {
     try {
       if (mode === "signup") {
         if (!agree) { toast.error("You must accept the terms and data policy."); return; }
+        const clean = isCleanDisplayName(displayName);
+        if (!clean.ok) { toast.error(clean.reason); return; }
         const parsed = signupSchema.safeParse({ displayName, email, password });
         if (!parsed.success) { toast.error(parsed.error.issues[0].message); return; }
         const { error } = await supabase.auth.signUp({
