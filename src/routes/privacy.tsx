@@ -35,7 +35,7 @@ function Privacy() {
           </div>
           <div>
             <h2 className="text-xl font-bold text-foreground">Your rights</h2>
-            <p>You can request access, correction, or deletion of your data by emailing hello@autocode.dev. Deleting your account removes your profile; reviews you posted may be retained but anonymised.</p>
+            <p>You can request access, correction, or deletion of your data by emailing autocode.business@gmail.com. Deleting your account removes your profile; reviews you posted may be retained but anonymised.</p>
           </div>
           <div>
             <h2 className="text-xl font-bold text-foreground">Cookies</h2>
@@ -43,7 +43,7 @@ function Privacy() {
           </div>
           <div>
             <h2 className="text-xl font-bold text-foreground">Contact</h2>
-            <p>hello@autocode.dev</p>
+            <p>autocode.business@gmail.com</p>
           </div>
         </section>
       </article>
