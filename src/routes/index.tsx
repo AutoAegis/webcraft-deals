@@ -139,7 +139,7 @@ function Calculator() {
             <div className="mt-2 text-6xl font-bold tabular-nums">£{total.toLocaleString()}</div>
             <p className="mt-4 text-sm opacity-80">One-time price. Hosting, edits & training included for 30 days post-launch.</p>
             <Button asChild variant="secondary" size="lg" className="mt-8 w-full">
-              <a href="mailto:hello@autocode.dev">Lock in this price <ArrowRight className="ml-2 size-4" /></a>
+              <a href="mailto:autocode.business@gmail.com">Lock in this price <ArrowRight className="ml-2 size-4" /></a>
             </Button>
           </Card>
         </div>
@@ -180,7 +180,7 @@ function Packages() {
                 ))}
               </ul>
               <Button asChild variant={p.popular ? "hero" : "outline"} className="mt-8">
-                <a href="mailto:hello@autocode.dev">Choose {p.name}</a>
+                <a href="mailto:autocode.business@gmail.com">Choose {p.name}</a>
               </Button>
             </Card>
           ))}
@@ -311,7 +311,7 @@ function Footer() {
         <div className="flex gap-6">
           <Link to="/terms" className="hover:text-primary">Terms</Link>
           <Link to="/privacy" className="hover:text-primary">Data Policy</Link>
-          <a href="mailto:hello@autocode.dev" className="hover:text-primary">hello@autocode.dev</a>
+          <a href="mailto:autocode.business@gmail.com" className="hover:text-primary">autocode.business@gmail.com</a>
         </div>
       </div>
     </footer>

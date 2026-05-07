@@ -42,7 +42,7 @@ function Terms() {
           </div>
           <div>
             <h2 className="text-xl font-bold text-foreground">7. Contact</h2>
-            <p>Questions about these terms: hello@autocode.dev</p>
+            <p>Questions about these terms: autocode.business@gmail.com</p>
           </div>
         </section>
       </article>
