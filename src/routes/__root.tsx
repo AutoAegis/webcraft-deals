@@ -72,9 +72,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Pixelforge — Affordable Websites Built by a Pro" },
+      { title: "AutoCode — Affordable Websites Built by a Pro" },
       { name: "description", content: "Custom-coded websites at fair prices. Get a quote, pick a package, and launch fast." },
-      { property: "og:title", content: "Pixelforge — Affordable Websites Built by a Pro" },
+      { property: "og:title", content: "AutoCode — Affordable Websites Built by a Pro" },
       { property: "og:description", content: "Custom-coded websites at fair prices. Get a quote, pick a package, and launch fast." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
