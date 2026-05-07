@@ -11,6 +11,7 @@ import { ArrowUpRight, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteNav } from "@/components/site-nav";
 import { useAuth } from "@/hooks/use-auth";
+import { AdminSignature } from "@/components/admin-signature";
 
 export const Route = createFileRoute("/portfolio")({
   head: () => ({ meta: [{ title: "Portfolio — AutoCode" }, { name: "description", content: "Selected websites and apps built by AutoCode." }] }),
@@ -130,6 +131,7 @@ function PortfolioPage() {
                   <h3 className="text-xl font-bold">{p.title}</h3>
                   {isAdmin && <button onClick={()=>remove(p.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="size-4" /></button>}
                 </div>
+                <div className="mt-1"><AdminSignature /></div>
                 <p className="mt-2 text-sm text-muted-foreground flex-1">{p.description}</p>
                 {p.tech.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-1.5">
