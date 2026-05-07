@@ -19,6 +19,7 @@ export type Database = {
           body: string
           created_at: string
           id: string
+          image_url: string | null
           pinned: boolean
           title: string
           updated_at: string
@@ -27,6 +28,7 @@ export type Database = {
           body: string
           created_at?: string
           id?: string
+          image_url?: string | null
           pinned?: boolean
           title: string
           updated_at?: string
@@ -35,6 +37,7 @@ export type Database = {
           body?: string
           created_at?: string
           id?: string
+          image_url?: string | null
           pinned?: boolean
           title?: string
           updated_at?: string
@@ -101,6 +104,33 @@ export type Database = {
           id?: string
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      promo_codes: {
+        Row: {
+          active: boolean
+          code: string
+          created_at: string
+          discount_percent: number
+          expires_at: string | null
+          id: string
+        }
+        Insert: {
+          active?: boolean
+          code: string
+          created_at?: string
+          discount_percent: number
+          expires_at?: string | null
+          id?: string
+        }
+        Update: {
+          active?: boolean
+          code?: string
+          created_at?: string
+          discount_percent?: number
+          expires_at?: string | null
+          id?: string
         }
         Relationships: []
       }
