@@ -63,25 +63,31 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  /* Cyber-brutalist: ink black + electric lime */
+  --background: oklch(0.14 0.01 240);
+  --foreground: oklch(0.97 0.01 100);
+  --card: oklch(0.18 0.012 240);
+  --card-foreground: oklch(0.97 0.01 100);
+  --popover: oklch(0.18 0.012 240);
+  --popover-foreground: oklch(0.97 0.01 100);
+  --primary: oklch(0.88 0.23 130);
+  --primary-foreground: oklch(0.14 0.01 240);
+  --secondary: oklch(0.24 0.015 240);
+  --secondary-foreground: oklch(0.97 0.01 100);
+  --muted: oklch(0.22 0.012 240);
+  --muted-foreground: oklch(0.7 0.02 240);
+  --accent: oklch(0.7 0.18 50);
+  --accent-foreground: oklch(0.14 0.01 240);
+  --destructive: oklch(0.62 0.22 27);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.28 0.015 240);
+  --input: oklch(0.24 0.015 240);
+  --ring: oklch(0.88 0.23 130);
+  --gradient-hero: linear-gradient(135deg, oklch(0.88 0.23 130) 0%, oklch(0.7 0.18 50) 100%);
+  --shadow-brutal: 8px 8px 0 0 oklch(0.88 0.23 130);
+  --shadow-glow: 0 0 60px -10px oklch(0.88 0.23 130 / 0.5);
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -140,5 +146,12 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-display);
+    background-image:
+      linear-gradient(oklch(0.97 0.01 100 / 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(0.97 0.01 100 / 0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
   }
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
+  .font-mono { font-family: var(--font-mono); }
 }
