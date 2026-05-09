@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign in or create an account — AutoCode</title>
+  <meta name="description" content="Create an AutoCode account to leave reviews and engage with the community." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="nav-root"></div>
+  <main style="padding:8rem 1.5rem 6rem">
+    <div class="card" style="max-width:28rem;margin:0 auto">
+      <div class="kicker" style="margin-bottom:.4rem">Account</div>
+      <h1 id="auth-title" style="font-size:1.85rem;font-weight:700">Sign in</h1>
+      <p class="muted" id="auth-sub" style="font-size:.9rem;margin-top:.4rem">Welcome back.</p>
+      <form id="auth-form" style="margin-top:1.5rem;display:flex;flex-direction:column;gap:1rem">
+        <div id="dn-row" style="display:none"><label class="lbl">Display name</label><input id="dn" maxlength="40" required></div>
+        <div><label class="lbl">Email</label><input id="em" type="email" maxlength="255" required></div>
+        <div><label class="lbl">Password</label><input id="pw" type="password" maxlength="72" required><p id="pw-hint" class="muted font-mono" style="font-size:.7rem;margin-top:.3rem;display:none">Min 8 characters.</p></div>
+        <label id="agree-row" class="checkbox" style="display:none;align-items:flex-start"><input id="agree" type="checkbox"><span>I agree to the <a class="primary" href="terms.html" style="text-decoration:underline">Terms</a> and <a class="primary" href="privacy.html" style="text-decoration:underline">Data Policy</a>.</span></label>
+        <button class="btn btn-hero" id="auth-submit" type="submit" style="width:100%">Sign in</button>
+      </form>
+      <button id="toggle-mode" class="btn btn-ghost" style="margin-top:1.25rem;width:100%;font-size:.85rem;color:var(--muted-foreground)">Don't have an account? Sign up</button>
+    </div>
+  </main>
+  <script type="module">
+    import { sb, ok, err, renderNav, isCleanDisplayName } from "./assets/app.js";
+    renderNav();
+    sb.auth.getSession().then(({ data }) => { if (data.session) location.href = "index.html"; });
+
+    let mode = "login";
+    function paint() {
+      document.getElementById("auth-title").textContent = mode === "login" ? "Sign in" : "Create account";
+      document.getElementById("auth-sub").textContent = mode === "login" ? "Welcome back." : "Join to leave reviews and stay updated.";
+      document.getElementById("dn-row").style.display = mode === "signup" ? "" : "none";
+      document.getElementById("agree-row").style.display = mode === "signup" ? "flex" : "none";
+      document.getElementById("pw-hint").style.display = mode === "signup" ? "" : "none";
+      document.getElementById("auth-submit").textContent = mode === "login" ? "Sign in" : "Create account";
+      document.getElementById("toggle-mode").textContent = mode === "login" ? "Don't have an account? Sign up" : "Already have an account? Sign in";
+    }
+    paint();
+    document.getElementById("toggle-mode").onclick = () => { mode = mode === "login" ? "signup" : "login"; paint(); };
+
+    document.getElementById("auth-form").onsubmit = async (e) => {
+      e.preventDefault();
+      const em = document.getElementById("em").value.trim();
+      const pw = document.getElementById("pw").value;
+      const btn = document.getElementById("auth-submit");
+      btn.disabled = true;
+      try {
+        if (mode === "signup") {
+          if (!document.getElementById("agree").checked) { err("You must accept the terms and data policy."); return; }
+          const dn = document.getElementById("dn").value;
+          const clean = isCleanDisplayName(dn);
+          if (!clean.ok) { err(clean.reason); return; }
+          if (pw.length < 8) { err("Password must be at least 8 characters."); return; }
+          const { error } = await sb.auth.signUp({ email: em, password: pw, options: { emailRedirectTo: location.origin + "/site/index.html", data: { display_name: dn.trim() } } });
+          if (error) { err(error.message); return; }
+          ok("Account created. Welcome!"); location.href = "index.html";
+        } else {
+          const { error } = await sb.auth.signInWithPassword({ email: em, password: pw });
+          if (error) { err(error.message); return; }
+          ok("Signed in."); location.href = "index.html";
+        }
+      } finally { btn.disabled = false; }
+    };
+  </script>
+</body>
+</html>
