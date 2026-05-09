@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Data Policy — AutoCode</title>
+  <meta name="description" content="How AutoCode handles your personal data." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div id="nav-root"></div>
+  <article class="container" style="max-width:42rem;padding:8rem 1.5rem 6rem">
+    <div class="kicker">Legal</div>
+    <h1 style="font-size:2.25rem;font-weight:700">Data Policy</h1>
+    <p class="muted font-mono uppercase" style="font-size:.7rem;margin-top:.4rem">Last updated: May 2025</p>
+    <section style="margin-top:2.5rem;display:flex;flex-direction:column;gap:1.5rem;color:var(--muted-foreground)">
+      <div><h2 style="font-size:1.2rem;font-weight:700;color:var(--foreground)">What we collect</h2>
+        <ul style="margin-top:.5rem;padding-left:1.25rem">
+          <li>Email address — used to create your account and contact you.</li>
+          <li>Display name — shown publicly on reviews you post.</li>
+          <li>Reviews and comments you submit — public on the site.</li>
+          <li>Authentication data (session tokens) — to keep you signed in.</li>
+        </ul></div>
+      <div><h2 style="font-size:1.2rem;font-weight:700;color:var(--foreground)">How we use it</h2><p>To operate the site, authenticate you, display your reviews, and respond to enquiries. We do not sell your data.</p></div>
+      <div><h2 style="font-size:1.2rem;font-weight:700;color:var(--foreground)">Storage & security</h2><p>Data is stored on secure managed infrastructure. Passwords are hashed and never stored in plain text. Access is restricted by row-level security policies.</p></div>
+      <div><h2 style="font-size:1.2rem;font-weight:700;color:var(--foreground)">Your rights</h2><p>You can request access, correction, or deletion of your data by emailing autocode.business@gmail.com.</p></div>
+      <div><h2 style="font-size:1.2rem;font-weight:700;color:var(--foreground)">Cookies</h2><p>We use only essential cookies for authentication. No advertising or third-party tracking.</p></div>
+      <div><h2 style="font-size:1.2rem;font-weight:700;color:var(--foreground)">Contact</h2><p>autocode.business@gmail.com</p></div>
+    </section>
+  </article>
+  <div id="footer-root"></div>
+  <script type="module">
+    import { renderNav, renderFooter } from "./assets/app.js";
+    renderNav(); renderFooter();
+  </script>
+</body>
+</html>
